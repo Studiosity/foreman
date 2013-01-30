@@ -103,17 +103,10 @@ class Foreman::Engine
   # @param [String] signal  The signal to send to each process
   #
   def killall(signal="SIGTERM")
-    if Foreman.windows?
-      @running.each do |pid, (process, index)|
-        system "sending #{signal} to #{name_for(pid)} at pid #{pid}"
-        begin
-          Process.kill(signal, pid)
-        rescue Errno::ESRCH, Errno::EPERM
-        end
-      end
-    else
+    @running.each do |pid, (process, index)|
+      system "sending #{signal} to #{name_for(pid)} at pid #{pid}"
       begin
-        Process.kill "-#{signal}", Process.getpgrp
+        Process.kill(signal, pid)
       rescue Errno::ESRCH, Errno::EPERM
       end
     end
