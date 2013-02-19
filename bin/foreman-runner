@@ -33,9 +33,9 @@ shift $((OPTIND-1))
 [ -z "$1" ] && usage
 
 if [ "$read_profile" = "1" ]; then
-  if [ -f .profile ]; then
-    . .profile
+  if [ -f ~/.profile ]; then
+    source ~/.profile
   fi
 fi
 
-exec "$@"
+exec $@
